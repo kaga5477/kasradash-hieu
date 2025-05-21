@@ -12,7 +12,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Introduction
 
-There are two pages: dashboard and settings follow your description test:
+There are two pages: dashboard and settings follow description test:
 
 ![image](https://github.com/user-attachments/assets/59a6bbba-1d0f-4b25-a799-dfa41aaaec14)
 ![image](https://github.com/user-attachments/assets/1655f34e-2294-4c4b-badf-4c384b4339f7)
