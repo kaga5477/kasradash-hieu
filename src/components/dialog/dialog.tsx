@@ -5,8 +5,6 @@ import { ReactNode } from "react"
 type ConfirmModalProps = {
   title?: string
   description?: string
-  confirmText?: string
-  cancelText?: string
   onConfirm: () => void
   setOpen: (open: boolean) => void
   open: boolean
@@ -15,17 +13,10 @@ type ConfirmModalProps = {
 export default function ConfirmModal({
   title = "Are you sure?",
   description = "This action cannot be undone.",
-  confirmText = "Confirm",
-  cancelText = "Cancel",
   onConfirm,
   setOpen,
   open,
 }: ConfirmModalProps) {
-
-  const handleConfirm = () => {
-    onConfirm()
-    setOpen(false)
-  }
 
   return (
     <Dialog  open={open} onOpenChange={setOpen}>
@@ -36,9 +27,9 @@ export default function ConfirmModal({
         </DialogHeader>
         <DialogFooter>
           <Button variant="outline" onClick={() => setOpen(false)}>
-            {cancelText}
+            Cancel
           </Button>
-          <Button onClick={handleConfirm}>{confirmText}</Button>
+          <Button onClick={onConfirm}>Confirm</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

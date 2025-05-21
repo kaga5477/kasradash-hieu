@@ -14,6 +14,8 @@ import {
   useGetReportedPostsHook,
 } from "@/hooks/useGetReportedPostsHook";
 import ConfirmModal from "@/components/dialog/dialog";
+import { Toaster } from "@/components/ui/sonner";
+import { toast } from "sonner";
 
 const AdminDashboard = () => {
   const { data: pendingSuppliers = [], loading: loadingSuppliers } =
@@ -23,14 +25,27 @@ const AdminDashboard = () => {
   const { data: reportedPosts = [], loading: loadingReportedPosts } =
     useGetReportedPostsHook();
   const [open, setOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<
+    PendingSupplier | PendingEvent | ReportedPost | null
+  >(null);
 
-  const handleConfirm = () => {
+  const handleConfirmDialog = () => {
+    console.log("Confirmed action for:", selectedItem);
+    toast.success("Action confirmed!");
+    setSelectedItem(null);
+    setOpen(false);
+  };
+
+  const onOpenConfirmDialog = (
+    item: PendingSupplier | PendingEvent | ReportedPost
+  ) => {
     setOpen(true);
-    console.log("Item confirmed");
+    setSelectedItem(item);
   };
 
   return (
     <>
+      <Toaster richColors position="top-right" />
       <div className="p-6 space-y-6">
         <h1 className="text-2xl font-bold">Admin Dashboard</h1>
 
@@ -88,7 +103,7 @@ const AdminDashboard = () => {
                     </div>
                     <Button
                       className="border cursor-pointer hover:bg-gray-200"
-                      onClick={() => handleConfirm()}
+                      onClick={() => onOpenConfirmDialog(supplier)}
                     >
                       Approve
                     </Button>
@@ -117,11 +132,17 @@ const AdminDashboard = () => {
                         {event.date}
                       </div>
                     </div>
-                    <div className="space-x-2">
-                      <Button className="border cursor-pointer hover:bg-gray-200">
+                    <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+                      <Button
+                        className="border cursor-pointer hover:bg-gray-200"
+                        onClick={() => onOpenConfirmDialog(event)}
+                      >
                         Approve
                       </Button>
-                      <Button className="border cursor-pointer hover:bg-gray-200">
+                      <Button
+                        className="border cursor-pointer hover:bg-gray-200"
+                        onClick={() => onOpenConfirmDialog(event)}
+                      >
                         Reject
                       </Button>
                     </div>
@@ -163,9 +184,7 @@ const AdminDashboard = () => {
       <ConfirmModal
         title="Confirm?"
         description="This action cannot be undone."
-        confirmText="Confirm"
-        cancelText="Cancel"
-        onConfirm={handleConfirm}
+        onConfirm={handleConfirmDialog}
         setOpen={setOpen}
         open={open}
       />
